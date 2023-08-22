@@ -79,9 +79,10 @@ button_code = customtkinter.CTkButton(root, command=lambda : proccess_crypto_tex
 button_input = customtkinter.CTkButton(root, command=input_cr, width=WIDTH, text='Criptografar texto inserido')
 button_file_text = customtkinter.CTkButton(root, command=crypto_file, width=WIDTH, text='Criptografar arquivo de texto')
 button_file_bin = customtkinter.CTkButton(root, command=crypto_bin_file, width=WIDTH, text='Criptografar arquivo binário')
-hl1 = customtkinter.CTkLabel(root, text='____________________________________________________________--', text_color="#2b2b2b")
+hl = '____________________________________________________________'
+hl1 = customtkinter.CTkLabel(root, text=hl, text_color="#2b2b2b")
 crypto_labels = customtkinter.CTkLabel(root, text='Mensagens criptografadas:')
-hl2 = customtkinter.CTkLabel(root, text='____________________________________________________________--', text_color="#2b2b2b")
+hl2 = customtkinter.CTkLabel(root, text=hl, text_color="#2b2b2b")
 
 textbox.pack(pady=10, padx=20)
 button_code.pack(pady=10, padx=0)
