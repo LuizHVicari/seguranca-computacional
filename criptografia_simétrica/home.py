@@ -1,14 +1,15 @@
 import customtkinter
 from tkinter import *
-from cryptography.fernet import Fernet
 import os
+import base32hex
+import hashlib
+from Crypto.Cipher import DES
+from Crypto.Random import get_random_bytes
 
+key = get_random_bytes(8)
 
 WIDTH = 300
 TEXTO = 'teste'
-
-key = Fernet.generate_key()
-f = Fernet(key)
 
 root = customtkinter.CTk()
 root.title('Criptografia')
@@ -29,8 +30,11 @@ def build_output(token_encrypted, token_decrypted):
 
 
 def proccess_crypto_text(text : str):
-    token_encrypted = f.encrypt(text.encode())
-    token_decrypted = f.decrypt(token_encrypted).decode()
+    e_cipher = DES.new(key, DES.MODE_EAX)
+    token_encrypted = e_cipher.encrypt(text.encode())
+
+    d_cipher = DES.new(key, DES.MODE_EAX, e_cipher.nonce)
+    token_decrypted = d_cipher.decrypt(token_encrypted).decode()
 
     build_output(token_encrypted, token_decrypted)
 
@@ -53,8 +57,11 @@ def crypto_bin_file():
     with open(path, 'rb') as file:
         file_content = file.read()
 
-    token_encrypted = f.encrypt(file_content)
-    token_decrypted = f.decrypt(token_encrypted)
+    e_cipher = DES.new(key, DES.MODE_EAX)
+    token_encrypted = e_cipher.encrypt(file_content)
+
+    d_cipher = DES.new(key, DES.MODE_EAX, e_cipher.nonce)
+    token_decrypted = d_cipher.decrypt(token_encrypted)
 
     file_name, file_extension = path.split('/')[-1].split('.')
 
