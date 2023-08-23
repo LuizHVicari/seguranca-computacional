@@ -6,7 +6,8 @@ import hashlib
 from Crypto.Cipher import DES
 from Crypto.Random import get_random_bytes
 
-key = get_random_bytes(8)
+rv = get_random_bytes(8)
+iv = get_random_bytes(8)
 
 WIDTH = 300
 TEXTO = 'teste'
@@ -30,10 +31,10 @@ def build_output(token_encrypted, token_decrypted):
 
 
 def proccess_crypto_text(text : str):
-    e_cipher = DES.new(key, DES.MODE_EAX)
+    e_cipher = DES.new(rv, DES.MODE_EAX, iv)
     token_encrypted = e_cipher.encrypt(text.encode())
 
-    d_cipher = DES.new(key, DES.MODE_EAX, e_cipher.nonce)
+    d_cipher = DES.new(rv, DES.MODE_EAX, e_cipher.nonce)
     token_decrypted = d_cipher.decrypt(token_encrypted).decode()
 
     build_output(token_encrypted, token_decrypted)
@@ -57,10 +58,10 @@ def crypto_bin_file():
     with open(path, 'rb') as file:
         file_content = file.read()
 
-    e_cipher = DES.new(key, DES.MODE_EAX)
+    e_cipher = DES.new(rv, DES.MODE_EAX, iv)
     token_encrypted = e_cipher.encrypt(file_content)
 
-    d_cipher = DES.new(key, DES.MODE_EAX, e_cipher.nonce)
+    d_cipher = DES.new(rv, DES.MODE_EAX, e_cipher.nonce)
     token_decrypted = d_cipher.decrypt(token_encrypted)
 
     file_name, file_extension = path.split('/')[-1].split('.')
