@@ -10,16 +10,19 @@ Utilizar o algoritmo DES.
 
 Para testar o trabalho:
 
-1. inicie o arquivo na pasta criptografia_simetrica
-
 1. clique no primeiro botão, sem preencher o campo de texto
 
 1. insira: "esse é um texto teste" no campo de texto e clique no segundo botão
 
-1. insira "arquivo_teste.txt" no campo de texto e clique no terceiro botão
+1. insira "arquivos_teste/arquivo_teste.txt" no campo de texto e clique no terceiro botão
 
-1. insira "imagem_teste.png" no campo de texto e clique no último botão
+1. insira "arquivos_teste/imagem_teste.png" no campo de texto e clique no último botão
 
 Os resultados esperados são a saída de criptografia na tela para os três primeiros botões e as imagens criptografadas e descriptografadas para o último botão.
 
 
+## Trabalho 2
+
+Criação de um algoritmo de criptografia simétrica utilizando a linguagem que preferirem.
+Reutilizar seu código feito na última atividade para que permita o uso do algoritmo de criptografia AES. Um exemplo básico está em anexo.
+Seu código deve dar a opção para utilizar chaves de 128 e 256 bits e funcionar com todos os modos de operação. Abaixo são descritos os modos de cifra de bloco, também constantes nos links acima:
