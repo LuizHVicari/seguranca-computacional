@@ -106,6 +106,13 @@ def clear_labels():
     labels.clear()
 
 
+def clear_files():
+    if 'arquivos_teste' in os.listdir():
+        for file in os.listdir('arquivos_teste'):
+            if '_decrypted' in file or '_encrypted' in file:
+                os.remove('arquivos_teste/' + file)
+
+
 textbox = customtkinter.CTkEntry(root, placeholder_text='Texto a ser criptografado ou caminho do arquivo', width=WIDTH)
 button_code = customtkinter.CTkButton(root, command=lambda : crypto('code_text'), width=WIDTH, text='Criptografar texto no código')
 button_input = customtkinter.CTkButton(root, command=lambda: crypto('input_text'), width=WIDTH, text='Criptografar texto inserido')
@@ -118,6 +125,7 @@ hl1 = customtkinter.CTkLabel(root, text=hl, text_color="#2b2b2b")
 crypto_labels = customtkinter.CTkLabel(root, text='Mensagens criptografadas:')
 hl2 = customtkinter.CTkLabel(root, text=hl, text_color="#2b2b2b")
 buttom_clear = customtkinter.CTkButton(root, command=clear_labels, text='Limpar saídas')
+buttom_rm_files = customtkinter.CTkButton(root, command=clear_files, text='Remover arquivos')
 
 textbox.pack(pady=10, padx=20)
 button_code.pack(pady=10, padx=0)
@@ -126,7 +134,8 @@ button_file_text.pack(pady=10, padx=20)
 button_file_bin.pack(pady=10, padx=20)
 crypto_mode_button.pack(pady=10, padx=20)
 key_size_button.pack(padx=20)
-buttom_clear.pack(padx=20, pady=20)
+buttom_clear.pack(padx=20, pady=10)
+buttom_rm_files.pack(padx=20, pady=10)
 hl1.pack(padx=20)
 crypto_labels.pack(padx=20)
 hl2.pack(padx=20)
