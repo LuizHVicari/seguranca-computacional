@@ -20,7 +20,7 @@ padding_modes = ('ECB', 'CBC')
 
 root = customtkinter.CTk()
 root.title('Criptografia')
-root.geometry("400x600")
+root.geometry("400x800")
 
 key_size = customtkinter.StringVar(value='128')
 chipher_method = customtkinter.StringVar(value='ECB')
@@ -31,7 +31,7 @@ labels = list()
 
 
 def create_chipers():
-    key= rv_128 if key_size.get() == '128' else rv_256
+    key = rv_128 if key_size.get() == '128' else rv_256
 
     match chipher_method.get():
         case 'ECB':
@@ -48,7 +48,7 @@ def create_chipers():
             d_cipher = AES.new(key, mode=AES.MODE_OFB, iv=iv_16)
         case 'CTR':
             e_cipher = AES.new(key, mode=AES.MODE_CTR, initial_value=iv_8)
-            d_cipher = AES.new(key, mode=AES.MODE_CTR, nonce= e_cipher.nonce, initial_value=iv_8)
+            d_cipher = AES.new(key, mode=AES.MODE_CTR, nonce=e_cipher.nonce, initial_value=iv_8)
         case 'XTS':
             print('não foi encontrado uma implementação do XTS compatível.')
 
@@ -78,7 +78,8 @@ def crypto(kind):
     c_text = e_cipher.encrypt(text)
 
     if chipher_method.get() in padding_modes:
-        p_text = unpad(text, AES.block_size)
+        p_text = d_cipher.decrypt(c_text)
+        p_text = unpad(p_text, AES.block_size)
     else:
         p_text = d_cipher.decrypt(c_text)
 
@@ -134,8 +135,8 @@ button_file_text.pack(pady=10, padx=20)
 button_file_bin.pack(pady=10, padx=20)
 crypto_mode_button.pack(pady=10, padx=20)
 key_size_button.pack(padx=20)
-buttom_clear.pack(padx=20, pady=10)
-buttom_rm_files.pack(padx=20, pady=10)
+buttom_clear.pack(padx=20, pady=20)
+buttom_rm_files.pack(padx=20)
 hl1.pack(padx=20)
 crypto_labels.pack(padx=20)
 hl2.pack(padx=20)
