@@ -26,3 +26,9 @@ Os resultados esperados são a saída de criptografia na tela para os três prim
 Criação de um algoritmo de criptografia simétrica utilizando a linguagem que preferirem.
 Reutilizar seu código feito na última atividade para que permita o uso do algoritmo de criptografia AES. Um exemplo básico está em anexo.
 Seu código deve dar a opção para utilizar chaves de 128 e 256 bits e funcionar com todos os modos de operação. Abaixo são descritos os modos de cifra de bloco, também constantes nos links acima:
+
+## Trabalho 3
+
+Gerar um par de chaves criptográficas RSA e EC utilizando o SSH Keygen, OpenSSL e também via código, na linguagem que preferirem.
+Criar um código para carregar um par de chaves e realizar a criptografia e decriptografia de uma mensagem pequena.
+Gravar um vídeo compartilhando tela e câmera explicando o funcionamento do código e a geração das chaves. Máximo 5 min.

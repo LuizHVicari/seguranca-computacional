@@ -13,7 +13,7 @@ rv_256 = get_random_bytes(32)
 iv_16 = get_random_bytes(16)
 iv_8 = get_random_bytes(8)
 
-WIDTH = 300
+c
 TEXT = 'teste'
 
 padding_modes = ('ECB', 'CBC')

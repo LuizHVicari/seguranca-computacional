@@ -1,7 +1,16 @@
+asn1crypto==1.5.1
 base32hex==1.0.2
 cffi==1.15.1
+coincurve==18.0.0
 customtkinter==5.2.0
+cytoolz==0.12.2
 darkdetect==0.8.0
+eciespy==0.4.0
+eth-hash==0.5.2
+eth-keys==0.4.0
+eth-typing==3.4.0
+eth-utils==2.2.0
 pycparser==2.21
 pycryptodome==3.18.0
 tk==0.1.0
+toolz==0.12.0
