@@ -106,7 +106,7 @@ class Figura2Destiny(Auth):
         message, encripted_hash = self.input[:-32], self.input[-32:]
         message_hash = self.hasher(message)
         input_hash = self.decipher(encripted_hash)
-        return message_hash == input_hash
+        return message_hash == input_hash, message
 
 
 class AsyCipher(Auth):
@@ -189,7 +189,7 @@ class Figura4Origin(Figura3Origin):
     Envia a saída correspondente a figura 4
     Garante confidencialidade pois a mensagem é criptografada
     """
-    def __init__(self, key, iv, private_key, public_key, message):
+    def __init__(self, key, iv, private_key, public_key, message, **kwargs):
         assert message
         super().__init__(key, iv, private_key, public_key, message)
         self.origin()
@@ -270,50 +270,32 @@ class Figura6Destiny(Figura5Destiny):
 if __name__ == '__main__':
     key = get_random_bytes(16)
     iv = get_random_bytes(16)
-
     private_key, public_key = get_asy_keys()
 
-    print("FIGURA 1:")
 
-    fig1_origin = Figura1Origin(key, iv, b'teste_figura_1')
-    print(fig1_origin.output)
+    def print_figure_output(figure_number, figure_origin_class, figure_destiny_class,  last=False, **kwargs,):
+        print("="*70)
+        print(f'FIGURA {figure_number}')
 
-    fig1_destiny = Figura1Destiny(key, iv, fig1_origin.output)
-    result = fig1_destiny.destiny()
-    print(result)
+        if kwargs.keys() >= {'private_key', 'public_key'}:
+            fig_origin = figure_origin_class(key, iv, kwargs['private_key'], kwargs['public_key'], b'teste_figura_1')
+            fig_destiny = figure_destiny_class(key, iv, kwargs['private_key'], kwargs['public_key'], fig_origin.output)
+        else:
+            fig_origin = figure_origin_class(key, iv, b'teste_figura_1')
+            fig_destiny = figure_destiny_class(key, iv, fig_origin.output)
+        fig_destiny_comparison, fig_destiny_message = fig_destiny.destiny()
+        print("Saída de Source A:\n", end="\t")
+        print(fig_origin.output)
+        print("Saída de Source B:")
+        print("\tResultado da comparação: ", end="\n\t\t")
+        print(fig_destiny_comparison, end="\n")
+        print("\tMensagem: ", end="\n\t\t")
+        print(fig_destiny_message)
 
-    print("FIGURA 2:")
 
-    fig2_origin = Figura2Origin(key, iv, b'teste_figura_3')
-    print(fig2_origin.output)
-
-    fig2_destiny = Figura2Destiny(key, iv, fig2_origin.output)
-    print(fig2_destiny.destiny())
-
-    print("FIGURA 3:")
-    fig3_origin = Figura3Origin(key, iv,private_key, public_key, b'teste_figura_3')
-    print(fig3_origin.output)
-
-    fig3_destiny = Figura3Destiny(key, iv, private_key, public_key, fig3_origin.output)
-    print(fig3_destiny.destiny())
-
-    print("FIGURA 4:")
-    fig4_origin = Figura4Origin(key, iv, private_key, public_key, b'teste_figura_4')
-    print(fig4_origin.output)
-
-    fig4_destiny = Figura4Destiny(key, iv, private_key, public_key, fig4_origin.output)
-    print(fig4_destiny.destiny())
-
-    print("FIGURA 5:")
-    fig5_origin = Figura5Origin(key, iv, b'teste_figura_5')
-    print(fig5_origin.output)
-
-    fig5_destiny = Figura5Destiny(key, iv, fig5_origin.output)
-    print(fig5_destiny.destiny())
-
-    print("FIGURA 6:")
-    fig6_origin = Figura6Origin(key, iv, b'teste_figura_6')
-    print(fig6_origin.output)
-
-    fig6_destiny = Figura6Destiny(key, iv, fig6_origin.output)
-    print(fig6_destiny.destiny())
+    print_figure_output(1, Figura1Origin, Figura1Destiny, message=b'teste_figura_1')
+    print_figure_output(2, Figura2Origin, Figura2Destiny, message=b'teste_figura_2')
+    print_figure_output(3, Figura3Origin, Figura3Destiny, private_key=private_key, public_key=public_key, message=b'teste_figura_3')
+    print_figure_output(4, Figura4Origin, Figura4Destiny, private_key=private_key, public_key=public_key, message=b'teste_figura_4')
+    print_figure_output(5, Figura5Origin, Figura5Destiny, message=b'teste_figura_5')
+    print_figure_output(6, Figura6Origin, Figura6Destiny, message=b'teste_figura_6', last=True)
