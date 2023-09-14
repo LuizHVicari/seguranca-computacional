@@ -2,6 +2,7 @@ asn1crypto==1.5.1
 base32hex==1.0.2
 cffi==1.15.1
 coincurve==18.0.0
+cryptography==41.0.3
 customtkinter==5.2.0
 cytoolz==0.12.2
 darkdetect==0.8.0
