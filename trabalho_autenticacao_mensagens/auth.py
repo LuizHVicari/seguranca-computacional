@@ -40,6 +40,10 @@ class Auth():
 
 
 class Figura1Origin(Auth):
+    """
+    Envia a saída correspondente a figura 1
+    Garante confidencialidade pois a mensagem é criptografada
+    """
     def __init__(self, key, iv, message):
         assert message
         super().__init__(key, iv, message)
@@ -54,6 +58,9 @@ class Figura1Origin(Auth):
 
 
 class Figura1Destiny(Auth):
+    """
+    Recebe a saída correspondente a figura 1
+    """
     def __init__(self, key, iv, input, message=None):
         assert not message
         super().__init__(key, iv)
@@ -62,12 +69,16 @@ class Figura1Destiny(Auth):
 
     def destiny(self):
         decipher_input = self.decipher(self.input)
-        message, hash_ = decipher_input[:-32], decipher_input[-32:]
+        message, hash_message = decipher_input[:-32], decipher_input[-32:]
 
-        return self.hasher(message) == hash_
+        return self.hasher(message) == hash_message, message
 
 
 class Figura2Origin(Auth):
+    """
+    Envia a saída correspondente a figura 2
+    Garante autenticidade pois a hash é criptografada
+    """
     def __init__(self, key, iv, message):
         assert message
         super().__init__(key, iv, message)
@@ -82,6 +93,9 @@ class Figura2Origin(Auth):
 
 
 class Figura2Destiny(Auth):
+    """
+    Recebe a saída correspondente a figura 2
+    """
     def __init__(self, key, iv, input, message=None):
         assert not message
         super().__init__(key, iv)
@@ -96,6 +110,9 @@ class Figura2Destiny(Auth):
 
 
 class AsyCipher(Auth):
+    """
+    Módulo para gerenciar as chaves assimétricas e a criptografia assimétrica
+    """
     def __init__(self, key, iv, private_key, public_key, message):
         assert type(message) == bytes or message == None, 'message must be bytes'
         super().__init__(key, iv, message)
@@ -131,6 +148,10 @@ class AsyCipher(Auth):
 
 
 class Figura3Origin(AsyCipher):
+    """
+    Envia a saída correspondente a figura 3
+    Garante assinatura por conta da criptografia assimétrica
+    """
     def __init__(self, key, iv, private_key, public_key, message):
         assert message
         super().__init__(key, iv, private_key, public_key, message)
@@ -146,6 +167,9 @@ class Figura3Origin(AsyCipher):
 
 
 class Figura3Destiny(AsyCipher):
+    """
+    Recebe a saída correspondente a figura 3
+    """
     def __init__(self, key, iv, private_key, public_key, input, message=None):
         assert not message
         super().__init__(key, iv, private_key, public_key, message)
@@ -157,10 +181,14 @@ class Figura3Destiny(AsyCipher):
         hash_message_decripted = self.asy_decipher(hash_message)
         input_message_hash = self.hasher(message)
 
-        return hash_message_decripted == input_message_hash
+        return hash_message_decripted == input_message_hash, message
 
 
 class Figura4Origin(Figura3Origin):
+    """
+    Envia a saída correspondente a figura 4
+    Garante confidencialidade pois a mensagem é criptografada
+    """
     def __init__(self, key, iv, private_key, public_key, message):
         assert message
         super().__init__(key, iv, private_key, public_key, message)
@@ -169,6 +197,9 @@ class Figura4Origin(Figura3Origin):
 
 
 class Figura4Destiny(Figura3Destiny):
+    """
+    Recebe a saída correspondente a figura 4
+    """
     def __init__(self, key, iv, private_key, public_key, input, message=None):
         assert not message
         super().__init__(key, iv, private_key, public_key, message)
@@ -176,6 +207,10 @@ class Figura4Destiny(Figura3Destiny):
 
 
 class Figura5Origin(Auth):
+    """
+    Envia a saída correspondente a figura 5
+    Garante segurança maior graças ao salt e, como todas as outras, tem verificação de integridade
+    """
     def __init__(self, key, iv, message, salt=b'2023_e_tem_gente_usando_php_ainda?'):
         assert message
         super().__init__(key, iv, message)
@@ -192,6 +227,9 @@ class Figura5Origin(Auth):
 
 
 class Figura5Destiny(Auth):
+    """
+    Recebe a saída correspondente a figura 5
+    """
     def __init__(self, key, iv, input, message=None, salt=b'2023_e_tem_gente_usando_php_ainda?'):
         assert not message
         super().__init__(key, iv)
@@ -204,10 +242,14 @@ class Figura5Destiny(Auth):
         message_salt = message + self.salt
         hash_salt_message_destiny = self.hasher(message_salt)
 
-        return hash_salt_message == hash_salt_message_destiny
+        return hash_salt_message == hash_salt_message_destiny, message
 
 
 class Figura6Origin(Figura5Origin):
+    """
+    Envia a saída correspondente a figura 6
+    Garante confidencialidade pois a mensagem é criptografada, maior segurança graças ao salt
+    """
     def __init__(self, key, iv, message, salt=b'2023_e_tem_gente_usando_php_ainda?'):
         assert message
         super().__init__(key, iv, message)
@@ -216,12 +258,13 @@ class Figura6Origin(Figura5Origin):
 
 
 class Figura6Destiny(Figura5Destiny):
+    """
+    Recebe a saída correspondente a figura 6
+    """
     def __init__(self, key, iv, input, message=None, salt=b'2023_e_tem_gente_usando_php_ainda?'):
         assert not message
         super().__init__(key, iv, input, message, salt)
         self.input = self.decipher(input)
-
-
 
 
 if __name__ == '__main__':
