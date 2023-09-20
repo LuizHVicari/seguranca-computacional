@@ -273,7 +273,7 @@ if __name__ == '__main__':
     private_key, public_key = get_asy_keys()
 
 
-    def print_figure_output(figure_number, figure_origin_class, figure_destiny_class,  last=False, **kwargs,):
+    def print_figure_output(figure_number, figure_origin_class, figure_destiny_class, message, last=False, **kwargs,):
         print("="*70)
         print(f'FIGURA {figure_number}')
 
@@ -281,7 +281,7 @@ if __name__ == '__main__':
             fig_origin = figure_origin_class(key, iv, kwargs['private_key'], kwargs['public_key'], b'teste_figura_1')
             fig_destiny = figure_destiny_class(key, iv, kwargs['private_key'], kwargs['public_key'], fig_origin.output)
         else:
-            fig_origin = figure_origin_class(key, iv, b'teste_figura_1')
+            fig_origin = figure_origin_class(key, iv, message)
             fig_destiny = figure_destiny_class(key, iv, fig_origin.output)
         fig_destiny_comparison, fig_destiny_message = fig_destiny.destiny()
         print("Saída de Source A:\n", end="\t")
