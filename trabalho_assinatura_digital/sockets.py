@@ -2,7 +2,7 @@ import socket
 from classes import UncipherSignatureReceiver, CipherSignatureReceiver
 
 class Socket():
-    def __init__(self, host : str = 'localhost', port : int = 65432):
+    def __init__(self, host : str = 'localhost', port : int = 65431):
         self.host = host
         self.port = port
 
